@@ -1,9 +1,8 @@
 ﻿using System;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Storage;
 
 namespace Asteroids
 {
@@ -12,14 +11,12 @@ namespace Asteroids
 	/// </summary>
 	public class Game1 : Game
 	{
-		public const int WIDTH = 800;
-		public const int HEIGHT = 800;
-
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
 		GameBackground background;
 		Ship ship;
+		Asteroid asteroid;
 
 		public Game1 ()
 		{
@@ -36,13 +33,14 @@ namespace Asteroids
 		protected override void Initialize ()
 		{
 			// TODO: Add your initialization logic here
-			graphics.PreferredBackBufferWidth = WIDTH;
-			graphics.PreferredBackBufferHeight = HEIGHT;
+			graphics.PreferredBackBufferWidth = GameConstants.WINDOW_WIDTH;
+			graphics.PreferredBackBufferHeight = GameConstants.WINDOW_HEIGHT;
 			graphics.ApplyChanges ();
 
+			//TextureManager = new TextureManager ();
 			background = new GameBackground ();
-			ship = new Ship (WIDTH, HEIGHT);
-
+			ship = new Ship ();
+			asteroid = new Asteroid ();
 			base.Initialize ();
 		}
 
@@ -55,9 +53,8 @@ namespace Asteroids
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch (GraphicsDevice);
 
-			//TODO: use this.Content to load your game content here 
-			background.LoadContent (Content);
-			ship.LoadContent (Content);
+			//TODO: use this.Content to load your game content here
+			TextureManager.LoadContent (Content);
 		}
 
 		/// <summary>
@@ -77,6 +74,7 @@ namespace Asteroids
 			// TODO: Add your update logic here
 			KeyboardManager.HandleKeyboard(this);
 			ship.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
+			asteroid.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
 			base.Update (gameTime);
 		}
@@ -93,6 +91,7 @@ namespace Asteroids
 			spriteBatch.Begin ();
 			background.Draw (spriteBatch);
 			ship.Draw (spriteBatch);
+			asteroid.Draw (spriteBatch);
 			spriteBatch.End ();
             
 			base.Draw (gameTime);
@@ -103,7 +102,6 @@ namespace Asteroids
 			switch (key) 
 			{
 				case Keys.Up:
-				case Keys.Down:
 				case Keys.Right:
 				case Keys.Left:
 					ship.MoveKeyPressed(key);
@@ -124,7 +122,6 @@ namespace Asteroids
 			switch (key) 
 			{
 				case Keys.Up:
-				case Keys.Down:
 				case Keys.Right:
 				case Keys.Left:
 					ship.MoveKeyReleased (key);

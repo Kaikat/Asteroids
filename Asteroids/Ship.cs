@@ -1,7 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Asteroids
@@ -11,7 +11,6 @@ namespace Asteroids
 		private const int SHIP_WIDTH = 100;
 		private const int SHIP_HEIGHT = 67;
 
-		private Texture2D shipTexture;
 		private Vector2 shipPosition;
 		private Vector2 shipVelocity;
 		private Vector2 shipAcceleration;
@@ -19,9 +18,6 @@ namespace Asteroids
 		private Rectangle shipTextureRectangle;
 		private float rotation;
 		private bool[] keyPressed;
-
-		private int WINDOW_WIDTH;
-		private int WINDOW_HEIGHT;
 
 		const int NUM_MOVEMENTS = 3;
 		const int UP = 0;
@@ -33,18 +29,15 @@ namespace Asteroids
 		//height 41 to 190
 		//width 0 to 227
 
-		public Ship (int windowWidth, int windowHeight)
+		public Ship ()
 		{
-			WINDOW_WIDTH = windowWidth;
-			WINDOW_HEIGHT = windowHeight;
-
-			float x_pos = ((float)windowWidth / 2.0f) - (SHIP_WIDTH / 2.0f);
-			float y_pos = (float)windowHeight - SHIP_HEIGHT;
+			float x_pos = ((float)GameConstants.WINDOW_WIDTH / 2.0f) - (SHIP_WIDTH / 2.0f);
+			float y_pos = (float)GameConstants.WINDOW_HEIGHT - SHIP_HEIGHT;
 
 			rotation = 0.0f;
 			shipPosition = new Vector2 (x_pos, y_pos);
 			shipVelocity = new Vector2 (0.0f, 0.5f);
-			shipAcceleration = new Vector2(0.0f, 0.0f);
+			shipAcceleration = Vector2.Zero;
 
 			keyPressed = new bool[NUM_MOVEMENTS];
 			for (int i = 0; i < NUM_MOVEMENTS; i++) 
@@ -57,15 +50,11 @@ namespace Asteroids
 
 		}
 
-		public void LoadContent(ContentManager content)
-		{
-			shipTexture = content.Load<Texture2D> ("DisplayShips");
-		}
-
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(shipTexture, new Rectangle((int)shipPosition.X, (int)shipPosition.Y, SHIP_WIDTH, SHIP_HEIGHT), 
-							 shipTextureRectangle, Color.White, rotation, origin, SpriteEffects.None, 0.0f);
+			spriteBatch.Draw(TextureManager.shipTexture, 
+				new Rectangle((int)shipPosition.X, (int)shipPosition.Y, SHIP_WIDTH, SHIP_HEIGHT), 
+				shipTextureRectangle, Color.White, rotation, origin, SpriteEffects.None, 0.0f);
 		}
 
 		public void Update(float deltaTime)
@@ -90,7 +79,7 @@ namespace Asteroids
 		{			
 			shipVelocity += shipAcceleration * deltaTime;
 			shipPosition += shipVelocity * deltaTime;
-			shipPosition = Utilities.ApplyTorusMovement(shipPosition, WINDOW_WIDTH, WINDOW_HEIGHT);
+			shipPosition = Utilities.ApplyTorusMovement(shipPosition);
 		}
 
 		public void RotateShip(float deltaTime, float angleDirection)

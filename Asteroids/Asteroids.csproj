@@ -71,6 +71,11 @@
     <Compile Include="Ship.cs" />
     <Compile Include="KeyboardManager.cs" />
     <Compile Include="Utilities.cs" />
+    <Compile Include="Asteroid.cs" />
+    <Compile Include="AsteroidManager.cs" />
+    <Compile Include="GameConstants.cs" />
+    <Compile Include="TextureManager.cs" />
+    <Compile Include="Manager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
