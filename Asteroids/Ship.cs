@@ -20,11 +20,13 @@ namespace Asteroids
 		private float rotation;
 		private bool[] keyPressed;
 
-		const int NUM_MOVEMENTS = 4;
+		private int WINDOW_WIDTH;
+		private int WINDOW_HEIGHT;
+
+		const int NUM_MOVEMENTS = 3;
 		const int UP = 0;
-		const int DOWN = 1;
-		const int RIGHT = 2;
-		const int LEFT = 3;
+		const int RIGHT = 1;
+		const int LEFT = 2;
 		const float ROTATION_SPEED = 5.0f;
 		const float MAX_SPEED = 20.0f;
 
@@ -33,6 +35,9 @@ namespace Asteroids
 
 		public Ship (int windowWidth, int windowHeight)
 		{
+			WINDOW_WIDTH = windowWidth;
+			WINDOW_HEIGHT = windowHeight;
+
 			float x_pos = ((float)windowWidth / 2.0f) - (SHIP_WIDTH / 2.0f);
 			float y_pos = (float)windowHeight - SHIP_HEIGHT;
 
@@ -85,6 +90,7 @@ namespace Asteroids
 		{			
 			shipVelocity += shipAcceleration * deltaTime;
 			shipPosition += shipVelocity * deltaTime;
+			shipPosition = Utilities.ApplyTorusMovement(shipPosition, WINDOW_WIDTH, WINDOW_HEIGHT);
 		}
 
 		public void RotateShip(float deltaTime, float angleDirection)
@@ -98,10 +104,6 @@ namespace Asteroids
 			{
 				case Keys.Up:
 					keyPressed [UP] = true;
-					break;
-
-				case Keys.Down:
-					keyPressed [DOWN] = true;
 					break;
 
 				case Keys.Right:
@@ -120,10 +122,6 @@ namespace Asteroids
 			{
 				case Keys.Up:
 					keyPressed [UP] = false;
-				break;
-
-				case Keys.Down:
-					keyPressed [DOWN] = false;
 				break;
 
 				case Keys.Right:
