@@ -20,6 +20,5 @@ namespace Asteroids
 			shipTexture = content.Load<Texture2D> ("DisplayShips");
 			asteroidTextures = content.Load<Texture2D> ("PlanetSprites");
 		}
-
 	}
 }

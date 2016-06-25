@@ -15,8 +15,9 @@ namespace Asteroids
 		SpriteBatch spriteBatch;
 
 		GameBackground background;
+		AsteroidManager asteroidManager;
+
 		Ship ship;
-		Asteroid asteroid;
 
 		public Game1 ()
 		{
@@ -40,7 +41,7 @@ namespace Asteroids
 			//TextureManager = new TextureManager ();
 			background = new GameBackground ();
 			ship = new Ship ();
-			asteroid = new Asteroid ();
+			asteroidManager = new AsteroidManager (GameConstants.LEVEL_1);
 			base.Initialize ();
 		}
 
@@ -74,7 +75,7 @@ namespace Asteroids
 			// TODO: Add your update logic here
 			KeyboardManager.HandleKeyboard(this);
 			ship.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
-			asteroid.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
+			asteroidManager.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
 			base.Update (gameTime);
 		}
@@ -91,7 +92,7 @@ namespace Asteroids
 			spriteBatch.Begin ();
 			background.Draw (spriteBatch);
 			ship.Draw (spriteBatch);
-			asteroid.Draw (spriteBatch);
+			asteroidManager.Draw (spriteBatch);
 			spriteBatch.End ();
             
 			base.Draw (gameTime);
