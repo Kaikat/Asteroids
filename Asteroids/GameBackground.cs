@@ -16,7 +16,9 @@ namespace Asteroids
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw (TextureManager.backgroundTexture[level], new Vector2(0,0), Color.White);
+			spriteBatch.Draw (TextureManager.backgroundTexture[level], 
+				new Rectangle (0, 0, GameConstants.WINDOW_WIDTH, GameConstants.WINDOW_HEIGHT),
+				new Rectangle(0, 0, 1024, 4024), Color.White);
 		}
 
 		private void NextLevel()
