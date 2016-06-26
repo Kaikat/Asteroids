@@ -8,6 +8,7 @@ namespace Asteroids
 	{
 		public static Texture2D[] backgroundTexture { private set; get; }
 		public static Texture2D shipTexture { private set; get; }
+		public static Texture2D bulletTexture { private set; get; }
 		public static Texture2D asteroidTextures { private set; get; }
 
 		public static void LoadContent(ContentManager content)
@@ -18,6 +19,7 @@ namespace Asteroids
 			backgroundTexture [2] = content.Load<Texture2D>("Level3BG");
 
 			shipTexture = content.Load<Texture2D> ("DisplayShips");
+			bulletTexture = content.Load<Texture2D> ("BulletTexture");
 			asteroidTextures = content.Load<Texture2D> ("PlanetSprites");
 		}
 	}

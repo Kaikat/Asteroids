@@ -108,6 +108,10 @@ namespace Asteroids
 					ship.MoveKeyPressed(key);
 				break;
 		
+				case Keys.Space:
+					ship.FireKeyPressed (key);
+				break;
+
 				case Keys.Q:
 				case Keys.Escape:
 					Exit ();

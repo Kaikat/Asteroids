@@ -3,6 +3,9 @@
 namespace Asteroids
 {
 	public enum AsteroidSize { SMALL, MEDIUM, LARGE };
+	public enum BulletType { X, MISSILE, MINI, WIDE_ARROW, NORMAL, DIAMOND, LASER, 
+		SHARP, UPDOWN, BOW, SHURIKEN, ZIGZAG, THIN_ARROW, ARROW, SPLIT_ARROW, KNIFE,
+		SEPARATE_ARROW, BIG_ARROW };
 
 	public static class GameConstants
 	{

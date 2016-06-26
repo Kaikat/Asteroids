@@ -19,6 +19,8 @@ namespace Asteroids
 		private float rotation;
 		private bool[] keyPressed;
 
+		private Weapon weapon;
+
 		const int NUM_MOVEMENTS = 3;
 		const int UP = 0;
 		const int RIGHT = 1;
@@ -48,6 +50,7 @@ namespace Asteroids
 			shipTextureRectangle = new Rectangle (0, 41, 227, 149);
 			origin = new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f);
 
+			weapon = new Weapon (BulletType.MINI);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -55,6 +58,8 @@ namespace Asteroids
 			spriteBatch.Draw(TextureManager.shipTexture, 
 				new Rectangle((int)shipPosition.X, (int)shipPosition.Y, SHIP_WIDTH, SHIP_HEIGHT), 
 				shipTextureRectangle, Color.White, rotation, origin, SpriteEffects.None, 0.0f);
+
+			weapon.Draw (spriteBatch);
 		}
 
 		public void Update(float deltaTime)
@@ -73,6 +78,8 @@ namespace Asteroids
 			{
 				RotateShip (deltaTime, -1.0f);
 			}
+
+			weapon.Update (deltaTime);
 		}
 
 		public void MoveForward(float deltaTime)
@@ -124,6 +131,11 @@ namespace Asteroids
 				default:
 					break;
 			}
+		}
+
+		public void FireKeyPressed(Keys key)
+		{
+			weapon.Fire (shipPosition - new Vector2(2.0f, SHIP_HEIGHT/2.0f), rotation);
 		}
 	}
 }

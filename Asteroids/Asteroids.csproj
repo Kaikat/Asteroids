@@ -75,6 +75,8 @@
     <Compile Include="AsteroidManager.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="TextureManager.cs" />
+    <Compile Include="Weapon.cs" />
+    <Compile Include="Bullet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
