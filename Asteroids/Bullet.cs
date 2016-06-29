@@ -14,35 +14,32 @@ namespace Asteroids
 		private int bulletID;
 		private Rectangle bulletTextureRectangle;
 		private int bulletDrawSize;
-		private Vector2 origin;
 
-		private float bulletRotation;
-		private Vector2 bulletPosition;
-		private Vector2 bulletVelocity;
-		private Vector2 bulletAcceleration;
+		private PhysicalData bulletData;
 
-		public Bullet (BulletType bulletType, Vector2 position, float rotation)
+		public Bullet (BulletType bulletType, Vector2 position, Vector2 velocity, Vector2 acceleration, float rotation)
 		{
 			bulletID = (int) bulletType;
 			bulletDrawSize = 20;
-			bulletRotation = rotation;
-			bulletPosition = position;
-			bulletVelocity = new Vector2 (0.0f, 0.5f);
-			bulletAcceleration = Vector2.Zero;
 
 			bulletTextureRectangle = new Rectangle (x_coords [bulletID], y_coords [bulletID], 
 				widths [bulletID], heights [bulletID]);
 			
-			origin = new Vector2 (bulletTextureRectangle.Width / 2.0f, 
-				bulletTextureRectangle.Height / 2.0f);	
+			bulletData = new PhysicalData (position, velocity, acceleration, rotation,
+				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f));
+		}
+
+		public Bullet(BulletType bulletType, PhysicalData data)
+		{
+			bulletData = data;
 		}
 
 		public void Draw (SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(TextureManager.bulletTexture, 
-				new Rectangle((int)bulletPosition.X, (int)bulletPosition.Y, 
+				new Rectangle((int)bulletData.position.X, (int)bulletData.position.Y, 
 				bulletDrawSize, bulletDrawSize), bulletTextureRectangle, 
-				Color.White, -(float)Math.PI/2.0f + bulletRotation, origin, SpriteEffects.None, 0.0f);
+				Color.White, -(float)Math.PI/2.0f + bulletData.rotation, bulletData.rotationOrigin, SpriteEffects.None, 0.0f);
 		}
 
 		public void Update (float deltaTime)

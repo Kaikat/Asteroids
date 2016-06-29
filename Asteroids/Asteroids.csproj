@@ -77,6 +77,7 @@
     <Compile Include="TextureManager.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="PhysicalData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

@@ -32,9 +32,9 @@ namespace Asteroids
 			}
 		}
 
-		public void Fire (Vector2 position, float rotation)
+		public void Fire (Vector2 position, Vector2 velocity, Vector2 acceleration, float rotation)
 		{
-			Bullet bullet = new Bullet (bulletType, position, rotation);
+			Bullet bullet = new Bullet (bulletType, position, velocity, acceleration, rotation);
 			bullets.Add (bullet);
 		}
 	}
