@@ -78,6 +78,7 @@
     <Compile Include="Weapon.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="PhysicalData.cs" />
+    <Compile Include="Transform.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

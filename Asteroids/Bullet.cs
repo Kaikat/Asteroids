@@ -44,6 +44,9 @@ namespace Asteroids
 
 		public void Update (float deltaTime)
 		{
+			bulletData.acceleration += (bulletData.direction * 7.0f);
+			bulletData.velocity += bulletData.acceleration * deltaTime;
+			bulletData.position += bulletData.velocity * deltaTime;
 		}
 	}
 }

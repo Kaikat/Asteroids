@@ -9,11 +9,13 @@ namespace Asteroids
 	{
 		public AsteroidSize asteroidSize { private set; get; }
 
+		private Transform transform;
 		private Rectangle asteroidTextureRectangle;
-		private Vector2 asteroidPosition;
-		private int asteroidDrawSize;
-		private Vector2 origin;
-		private float rotation;
+		//private Vector2 asteroidPosition;
+		//private int asteroidDrawSize;
+
+		//private Vector2 origin;
+		//private float rotation;
 
 		private float rotationSpeed = 0.1f;
 		private int rotationDirection;
@@ -23,21 +25,23 @@ namespace Asteroids
 		{
 			asteroidTextureRectangle = textureRectangle;
 			rotationDirection = rotateDirection;
-			asteroidPosition = position;
-			asteroidDrawSize = drawSize;
+			//transform.position = position;
+			//transform.scale = drawSize;
 			rotationSpeed = rotateSpeed;
 			asteroidSize = size;
 
-			rotation = 0.0f;
-			origin = new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f);
+			//rotation = 0.0f;
+			//origin = new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f);
+			transform = new Transform (position, 0.0f, drawSize, 
+				new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f));
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(TextureManager.asteroidTextures, 
-				new Rectangle((int)asteroidPosition.X, (int)asteroidPosition.Y, 
-				asteroidDrawSize, asteroidDrawSize), asteroidTextureRectangle, 
-				Color.White, rotation, origin, SpriteEffects.None, 0.0f);
+				new Rectangle((int)transform.position.X, (int)transform.position.Y, 
+				transform.scale, transform.scale), asteroidTextureRectangle, 
+				Color.White, transform.rotation, transform.rotationOrigin, SpriteEffects.None, 0.0f);
 		}
 
 		public void Update(float deltaTime)
@@ -47,7 +51,7 @@ namespace Asteroids
 
 		public void Rotate(float deltaTime)
 		{
-			rotation += (deltaTime * rotationDirection * rotationSpeed);
+			transform.rotation += (deltaTime * rotationDirection * rotationSpeed);
 		}
 	}
 }
