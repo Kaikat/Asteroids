@@ -15,13 +15,6 @@ namespace Asteroids
 		{
 		}
 
-		public Transform (int scale)
-		{
-			position = Vector2.Zero;
-			rotation = 0.0f;
-			this.scale = scale;
-		}
-
 		public Transform (Vector2 position, float rotation, int scale, Vector2 rotationOrigin)
 		{
 			this.position = position;

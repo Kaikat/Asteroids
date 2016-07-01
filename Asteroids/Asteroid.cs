@@ -11,12 +11,6 @@ namespace Asteroids
 
 		private Transform transform;
 		private Rectangle asteroidTextureRectangle;
-		//private Vector2 asteroidPosition;
-		//private int asteroidDrawSize;
-
-		//private Vector2 origin;
-		//private float rotation;
-
 		private float rotationSpeed = 0.1f;
 		private int rotationDirection;
 
@@ -25,13 +19,8 @@ namespace Asteroids
 		{
 			asteroidTextureRectangle = textureRectangle;
 			rotationDirection = rotateDirection;
-			//transform.position = position;
-			//transform.scale = drawSize;
 			rotationSpeed = rotateSpeed;
 			asteroidSize = size;
-
-			//rotation = 0.0f;
-			//origin = new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f);
 			transform = new Transform (position, 0.0f, drawSize, 
 				new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f));
 		}
