@@ -22,7 +22,6 @@ namespace Asteroids
 		const int RIGHT = 1;
 		const int LEFT = 2;
 		const float ROTATION_SPEED = 5.0f;
-		const float MAX_SPEED = 20.0f;
 
 		//height 41 to 190
 		//width 0 to 227
@@ -41,7 +40,7 @@ namespace Asteroids
 			shipTextureRectangle = new Rectangle (0, 41, 227, 149);
 
 			shipData = new PhysicalData (new Vector2 (x_pos, y_pos), new Vector2 (0.0f, 0.5f), Vector2.Zero, 0.0f,
-				new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f));
+				new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f), GameConstants.SHIP_MAX_SPEED);
 			
 			weapon = new Weapon (BulletType.MINI);
 		}
@@ -57,9 +56,8 @@ namespace Asteroids
 
 		public void Update(float deltaTime)
 		{			
-			shipData.acceleration = keyPressed[UP] ? shipData.direction * MAX_SPEED : Vector2.Zero;
-
-			MoveForward (deltaTime);
+			shipData.Update (deltaTime, keyPressed [UP]);
+			shipData.position = Utilities.ApplyTorusMovement(shipData.position);
 
 			if (keyPressed [RIGHT]) 
 			{
@@ -71,13 +69,6 @@ namespace Asteroids
 			}
 
 			weapon.Update (deltaTime);
-		}
-
-		public void MoveForward(float deltaTime)
-		{			
-			shipData.velocity += shipData.acceleration * deltaTime;
-			shipData.position += shipData.velocity * deltaTime;
-			shipData.position = Utilities.ApplyTorusMovement(shipData.position);
 		}
 
 		public void RotateShip(float deltaTime, float angleDirection)

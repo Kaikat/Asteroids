@@ -26,7 +26,7 @@ namespace Asteroids
 				widths [bulletID], heights [bulletID]);
 			
 			bulletData = new PhysicalData (position, velocity, acceleration, rotation,
-				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f));
+				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f), GameConstants.BULLET_MAX_SPEED);
 		}
 
 		public Bullet(BulletType bulletType, PhysicalData data)
@@ -44,9 +44,12 @@ namespace Asteroids
 
 		public void Update (float deltaTime)
 		{
-			bulletData.acceleration += (bulletData.direction * 7.0f);
-			bulletData.velocity += bulletData.acceleration * deltaTime;
-			bulletData.position += bulletData.velocity * deltaTime;
+			bulletData.Update (deltaTime, true);
+
+			//vs
+			//bulletData.acceleration += (bulletData.direction * 7.0f);
+			//bulletData.velocity += bulletData.acceleration * deltaTime;
+			// bulletData.position += bulletData.velocity * deltaTime;
 		}
 	}
 }
