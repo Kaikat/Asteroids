@@ -9,9 +9,7 @@ namespace Asteroids
 	{
 		public AsteroidSize asteroidSize { private set; get; }
 
-		//private Transform transform;
 		private PhysicalData asteroidData;
-
 		private Rectangle asteroidTextureRectangle;
 		private float rotationSpeed = 0.1f;
 		private int rotationDirection;
@@ -107,28 +105,6 @@ namespace Asteroids
 		public Vector2 GetPositionBelow()
 		{
 			return new Vector2 (asteroidData.position.X, asteroidData.position.Y + asteroidData.scale);
-		}
-
-		//For debugging. Remove
-		private void GetSize(AsteroidSize size)
-		{
-			switch (size) {
-				case AsteroidSize.SMALL:
-					Console.WriteLine ("SMALL");
-					return;
-
-				case AsteroidSize.MEDIUM:
-					Console.WriteLine ("MEDIUM");
-					return;
-
-				case AsteroidSize.LARGE:
-					Console.WriteLine ("LARGE");
-					return;
-
-				default:
-					Console.WriteLine ("ERROR: Invalid Asteroid Size Passed to AsteroidManager.GetSize()");
-					return;
-			}
 		}
 	}
 }

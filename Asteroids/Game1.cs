@@ -13,10 +13,10 @@ namespace Asteroids
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-
+		SpriteFont font;
 		GameBackground background;
 		AsteroidManager asteroidManager;
-
+		string gameMessage;
 		Ship ship;
 
 		public Game1 ()
@@ -39,6 +39,7 @@ namespace Asteroids
 			graphics.ApplyChanges ();
 
 			//TextureManager = new TextureManager ();
+			gameMessage = "";
 			background = new GameBackground ();
 			ship = new Ship ();
 			asteroidManager = new AsteroidManager (GameConstants.LEVEL_1);
@@ -53,8 +54,8 @@ namespace Asteroids
 		{
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch (GraphicsDevice);
-
 			//TODO: use this.Content to load your game content here
+			font = Content.Load<SpriteFont>("ArialBold");
 			TextureManager.LoadContent (Content);
 		}
 
@@ -83,6 +84,7 @@ namespace Asteroids
 				if (Utilities.Collided (ship.radius, asteroidManager.GetAsteroidRadiusAt (i), ship.origin, asteroidManager.GetAsteroidOriginAt (i))) 
 				{
 					Console.WriteLine ("COLLIDED!");
+					gameMessage = "You Lost!";
 				} 
 				else 
 				{
@@ -109,6 +111,11 @@ namespace Asteroids
 				}
 			}
 
+			if (asteroidManager.GetAsteroidCount () == 0) 
+			{
+				gameMessage = "You Won!";
+			}
+
 			base.Update (gameTime);
 		}
 
@@ -125,6 +132,9 @@ namespace Asteroids
 			background.Draw (spriteBatch);
 			ship.Draw (spriteBatch);
 			asteroidManager.Draw (spriteBatch);
+			spriteBatch.DrawString (font, gameMessage,
+				new Vector2 (GameConstants.WINDOW_WIDTH / 2 - font.MeasureString (gameMessage).X / 2,
+					GameConstants.WINDOW_HEIGHT - font.MeasureString (gameMessage).Y - 10), Color.White);
 			spriteBatch.End ();
             
 			base.Draw (gameTime);
