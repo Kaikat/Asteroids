@@ -69,11 +69,11 @@ namespace Asteroids
 			
 			for(int asteroid = 0; asteroid < numAsteroids; asteroid++) 
 			{
-				CreateAsteroid (7, GetSize(asteroidSize));
+				CreateAsteroid (7, GetSize(asteroidSize), asteroidSize);
 			}
 		}
 
-		private void CreateAsteroid(int asteroidIndex, int drawSize)
+		private void CreateAsteroid(int asteroidIndex, int drawSize, AsteroidSize asteroidSize)
 		{
 			float rotateSpeed = RANDOM.Next (1, 11) / 30.0f;
 			int rotateDirection = RANDOM.Next () > 0 ? 1 : -1;
@@ -85,8 +85,11 @@ namespace Asteroids
 				new Rectangle (x_coords[asteroidIndex], y_coords[asteroidIndex], 
 				widths[asteroidIndex], heights[asteroidIndex]);
 
+			//Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
+			//	AsteroidSize.SMALL, textureRectangle, GetSize (AsteroidSize));
+			//GetSize (asteroidSize);
 			Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
-				AsteroidSize.SMALL, textureRectangle, drawSize);
+				asteroidSize, textureRectangle, drawSize);
 			
 			asteroids.Add (asteroid);
 		}
@@ -96,12 +99,15 @@ namespace Asteroids
 			switch (size) 
 			{
 				case AsteroidSize.SMALL:
+					Console.WriteLine ("SMALL");
 					return SMALL_ASTEROID_SIZE;
 
 				case AsteroidSize.MEDIUM:
+					Console.WriteLine ("MEDIUM");
 					return MEDIUM_ASTEROID_SIZE;
 
 				case AsteroidSize.LARGE:
+					Console.WriteLine ("LARGE");
 					return LARGE_ASTEROID_SIZE;
 
 				default:

@@ -40,14 +40,20 @@ namespace Asteroids
 			{
 				health = 3;
 			}
-			if (asteroidSize == AsteroidSize.MEDIUM) 
+			else if (asteroidSize == AsteroidSize.MEDIUM) 
 			{
 				health = 2;
 			} 
-			else 
+			else if (asteroidSize == AsteroidSize.SMALL) 
 			{
 				health = 1;
+			} 
+			else 
+			{
+				health = 0;
 			}
+			GetSize (asteroidSize);
+			Console.WriteLine ("MY HEALTH: " + health);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -68,13 +74,39 @@ namespace Asteroids
 			transform.rotation += (deltaTime * rotationDirection * rotationSpeed);
 		}
 
-		public void DecrementHealth()
+		public bool DecrementHealth()
 		{
 			health--;
 
 			if (health <= 0) 
 			{
 				alive = false;
+			}
+
+			//returns whether the asteroid was destroid
+			return !alive; 
+		}
+
+
+		//For debugging. Remove
+		private void GetSize(AsteroidSize size)
+		{
+			switch (size) {
+				case AsteroidSize.SMALL:
+					Console.WriteLine ("SMALL");
+					return;
+
+				case AsteroidSize.MEDIUM:
+					Console.WriteLine ("MEDIUM");
+					return;
+
+				case AsteroidSize.LARGE:
+					Console.WriteLine ("LARGE");
+					return;
+
+				default:
+					Console.WriteLine ("ERROR: Invalid Asteroid Size Passed to AsteroidManager.GetSize()");
+					return;
 			}
 		}
 	}

@@ -85,7 +85,7 @@ namespace Asteroids
 				} 
 				else 
 				{
-					Console.WriteLine ("NO");
+					//Console.WriteLine ("NO");
 				}
 			}
 
@@ -98,9 +98,9 @@ namespace Asteroids
 					{
 						//asteroidManager.RemoveAsteroidAt (asteroidIndex);
 						ship.weapon.bullets.RemoveAt (bulletIndex);
-						asteroidManager.asteroids[asteroidIndex].DecrementHealth();
+						bool asteroidDestroyed = asteroidManager.asteroids[asteroidIndex].DecrementHealth();
 
-						if (ship.weapon.bullets.Count == 0) 
+						if (asteroidDestroyed || ship.weapon.bullets.Count == 0) 
 						{
 							break;
 						}
