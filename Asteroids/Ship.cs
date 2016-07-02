@@ -15,7 +15,7 @@ namespace Asteroids
 		private Rectangle shipTextureRectangle;
 		private bool[] keyPressed;
 
-		private Weapon weapon;
+		public Weapon weapon { private set; get; }
 
 		const int NUM_MOVEMENTS = 3;
 		const int UP = 0;
@@ -25,6 +25,8 @@ namespace Asteroids
 
 		//height 41 to 190
 		//width 0 to 227
+		public Vector2 origin;
+		public float radius { private set; get; }
 
 		public Ship ()
 		{
@@ -38,10 +40,11 @@ namespace Asteroids
 			}
 
 			shipTextureRectangle = new Rectangle (0, 41, 227, 149);
+			origin = Vector2.Zero;
 
 			shipData = new PhysicalData (new Vector2 (x_pos, y_pos), new Vector2 (0.0f, 0.5f), 0.0f,
 				new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f));
-			
+			radius = SHIP_WIDTH / 2.0f;
 			weapon = new Weapon (BulletType.MINI);
 		}
 
@@ -50,7 +53,9 @@ namespace Asteroids
 			spriteBatch.Draw(TextureManager.shipTexture, 
 				new Rectangle((int)shipData.position.X, (int)shipData.position.Y, SHIP_WIDTH, SHIP_HEIGHT), 
 				shipTextureRectangle, Color.White, shipData.rotation, shipData.rotationOrigin, SpriteEffects.None, 0.0f);
-			
+
+			origin.X = shipData.position.X + SHIP_WIDTH / 2.0f;
+			origin.Y = shipData.position.Y + SHIP_HEIGHT / 2.0f;
 			weapon.Draw (spriteBatch);
 		}
 

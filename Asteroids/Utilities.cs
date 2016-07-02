@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Asteroids
 {
@@ -30,6 +31,13 @@ namespace Asteroids
 			}
 
 			return position;
+		}
+
+		public static bool Collided(float radius1, float radius2, Vector2 centerPosition1, Vector2 centerPosition2)
+		{
+			float distance = (float) Math.Sqrt (Math.Pow ((centerPosition2.X - centerPosition1.X), 2.0f) +
+								     Math.Pow ((centerPosition2.Y - centerPosition1.Y), 2.0f)); 
+			return distance < (radius1 + radius2);
 		}
 	}
 }

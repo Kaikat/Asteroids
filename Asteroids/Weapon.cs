@@ -8,7 +8,7 @@ namespace Asteroids
 	public class Weapon
 	{
 		private BulletType bulletType;
-		private List<Bullet> bullets;
+		public List<Bullet> bullets { private set; get; }
 
 		public Weapon (BulletType bullet)
 		{
@@ -38,8 +38,6 @@ namespace Asteroids
 			{
 				bullet.Update (deltaTime);
 			}
-
-			Console.WriteLine(bullets.Count);
 		}
 
 		public void Fire (Vector2 position, Vector2 velocity, float rotation)

@@ -16,7 +16,7 @@ namespace Asteroids
 		private int[] y_coords = { 170, 110,  110,  110, 860, 860,  840,  910 };
 		private int[] heights =  { 360, 440,  450,  460, 350, 360,  380,  250 };
 
-		private List<Asteroid> asteroids;
+		public List<Asteroid> asteroids { private set; get; }
 		private Random RANDOM;
 
 		public AsteroidManager (int level)
@@ -44,10 +44,24 @@ namespace Asteroids
 
 		public void Update(float deltaTime)
 		{
-			foreach (Asteroid asteroid in asteroids) 
+			/*foreach (Asteroid asteroid in asteroids) 
 			{
 				asteroid.Update (deltaTime);
+			}*/
+			for (int i = asteroids.Count - 1; i >= 0; i--) 
+			{
+				if (!asteroids [i].alive) 
+				{
+					asteroids.RemoveAt (i);
+					continue;
+				}
+				asteroids [i].Update (deltaTime);
 			}
+		}
+
+		public void RemoveAsteroidAt(int index)
+		{
+			asteroids.RemoveAt (index);
 		}
 
 		private void GenerateAsteroids(int numAsteroids, AsteroidSize asteroidSize)

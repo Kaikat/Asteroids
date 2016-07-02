@@ -17,6 +17,9 @@ namespace Asteroids
 
 		private PhysicalData bulletData;
 
+		public Vector2 origin;// { private set; get; }
+		public float radius { private set; get; } 
+
 		public Bullet (BulletType bulletType, Vector2 position, Vector2 velocity, float rotation)
 		{
 			bulletID = (int) bulletType;
@@ -27,6 +30,7 @@ namespace Asteroids
 			
 			bulletData = new PhysicalData (position, velocity, rotation,
 				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f));
+			radius = bulletDrawSize / 2.0f;
 		}
 
 		public Bullet(BulletType bulletType, PhysicalData data)
@@ -46,6 +50,8 @@ namespace Asteroids
 		{
 			bulletData.acceleration = (bulletData.direction * GameConstants.BULLET_MAX_SPEED);
 			bulletData.Update (deltaTime);
+			origin.X = bulletData.position.X + bulletDrawSize / 2.0f;
+			origin.Y = bulletData.position.Y + bulletDrawSize / 2.0f;		
 		}
 
 		public bool IsOffScreen()

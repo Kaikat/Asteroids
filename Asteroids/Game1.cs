@@ -77,6 +77,38 @@ namespace Asteroids
 			ship.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 			asteroidManager.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
+			foreach (Asteroid asteroid in asteroidManager.asteroids) 
+			{
+				if (Utilities.Collided (ship.radius, asteroid.radius, ship.origin, asteroid.origin)) 
+				{
+					Console.WriteLine ("COLLIDED!");
+				} 
+				else 
+				{
+					Console.WriteLine ("NO");
+				}
+			}
+
+			for(int bulletIndex = ship.weapon.bullets.Count - 1; bulletIndex >= 0; bulletIndex--)
+			{
+				for(int asteroidIndex = asteroidManager.asteroids.Count - 1; asteroidIndex >= 0; asteroidIndex--) 
+				{
+					if (Utilities.Collided (ship.weapon.bullets[bulletIndex].radius, asteroidManager.asteroids[asteroidIndex].radius, 
+						ship.weapon.bullets[bulletIndex].origin, asteroidManager.asteroids[asteroidIndex].origin)) 
+					{
+						//asteroidManager.RemoveAsteroidAt (asteroidIndex);
+						ship.weapon.bullets.RemoveAt (bulletIndex);
+						asteroidManager.asteroids[asteroidIndex].DecrementHealth();
+
+						if (ship.weapon.bullets.Count == 0) 
+						{
+							break;
+						}
+						
+					}
+				}
+			}
+
 			base.Update (gameTime);
 		}
 

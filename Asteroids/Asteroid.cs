@@ -14,6 +14,14 @@ namespace Asteroids
 		private float rotationSpeed = 0.1f;
 		private int rotationDirection;
 
+		public Vector2 origin { private set; get; }
+		public float radius { private set; get; } 
+
+
+		public int health;
+		public bool alive;
+
+
 		public Asteroid(Vector2 position, int rotateDirection, float rotateSpeed, 
 			AsteroidSize size, Rectangle textureRectangle, int drawSize)
 		{
@@ -23,6 +31,23 @@ namespace Asteroids
 			asteroidSize = size;
 			transform = new Transform (position, 0.0f, drawSize, 
 				new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f));
+			origin = new Vector2 (position.X + drawSize / 2.0f, 
+								  position.Y + drawSize / 2.0f);
+			radius = drawSize / 2.0f;
+
+			alive = true;
+			if (asteroidSize == AsteroidSize.LARGE) 
+			{
+				health = 3;
+			}
+			if (asteroidSize == AsteroidSize.MEDIUM) 
+			{
+				health = 2;
+			} 
+			else 
+			{
+				health = 1;
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
@@ -41,6 +66,16 @@ namespace Asteroids
 		public void Rotate(float deltaTime)
 		{
 			transform.rotation += (deltaTime * rotationDirection * rotationSpeed);
+		}
+
+		public void DecrementHealth()
+		{
+			health--;
+
+			if (health <= 0) 
+			{
+				alive = false;
+			}
 		}
 	}
 }
