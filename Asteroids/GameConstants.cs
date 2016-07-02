@@ -18,7 +18,7 @@ namespace Asteroids
 		public const int LEVEL_2 = 1;
 		public const int LEVEL_3 = 2;
 
-		public const int MAX_ASTEROIDS_IN_LEVEL_1 = 10;
+		public const int MAX_ASTEROIDS_IN_LEVEL_1 = 1;
 		public const int MAX_ASTEROIDS_IN_LEVEL_2 = 20;
 		public const int MAX_ASTEROIDS_IN_LEVEL_3 = 30;
 

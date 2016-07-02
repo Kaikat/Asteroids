@@ -16,7 +16,7 @@ namespace Asteroids
 		private int[] y_coords = { 170, 110,  110,  110, 860, 860,  840,  910 };
 		private int[] heights =  { 360, 440,  450,  460, 350, 360,  380,  250 };
 
-		public List<Asteroid> asteroids { private set; get; }
+		private List<Asteroid> asteroids;
 		private Random RANDOM;
 
 		public AsteroidManager (int level)
@@ -44,54 +44,141 @@ namespace Asteroids
 
 		public void Update(float deltaTime)
 		{
-			/*foreach (Asteroid asteroid in asteroids) 
+			foreach (Asteroid asteroid in asteroids) 
 			{
 				asteroid.Update (deltaTime);
-			}*/
-			for (int i = asteroids.Count - 1; i >= 0; i--) 
-			{
-				if (!asteroids [i].alive) 
+			}
+			//for (int i = asteroids.Count - 1; i >= 0; i--) 
+			//{
+				/*if (!asteroids [i].alive) 
 				{
 					asteroids.RemoveAt (i);
 					continue;
-				}
-				asteroids [i].Update (deltaTime);
+				}*/
+			//	asteroids [i].Update (deltaTime);
+			//}
+		}
+
+		public int GetAsteroidCount()
+		{
+			return asteroids.Count;
+		}
+
+		public float GetAsteroidRadiusAt(int index)
+		{
+			return asteroids [index].radius;
+		}
+
+		public Vector2 GetAsteroidOriginAt(int index)
+		{
+			return asteroids [index].origin;
+		}
+
+		public bool DecrementAsteroidHealthAt(int index)
+		{
+			bool alive = asteroids [index].DecrementHealth ();
+
+			if (!alive) 
+			{
+				BreakAsteroidAt (index);
+				asteroids.RemoveAt (index);
+			}
+
+			//return if asteroid was destroyed
+			return !alive;
+		}
+
+		private void BreakAsteroidAt(int index)
+		{
+			switch(asteroids [index].asteroidSize)
+			{
+				case AsteroidSize.LARGE:
+					CreateAsteroid (7, AsteroidSize.MEDIUM, asteroids [index].GetPositionToRight ());
+					CreateAsteroid (7, AsteroidSize.MEDIUM, asteroids [index].GetPositionToLeft ());
+					break;
+
+				case AsteroidSize.MEDIUM:
+					CreateAsteroid (7, AsteroidSize.SMALL, asteroids [index].GetPositionToRight ());
+					CreateAsteroid (7, AsteroidSize.SMALL, asteroids [index].GetPositionToLeft ());
+					CreateAsteroid (7, AsteroidSize.SMALL, asteroids [index].GetPositionBelow ());
+					break;
+
+				//Small Ones Just Disappear
+				default:
+					break;
 			}
 		}
 
-		public void RemoveAsteroidAt(int index)
+		private void RemoveAsteroidAt(int index)
 		{
 			asteroids.RemoveAt (index);
 		}
-
+			
 		private void GenerateAsteroids(int numAsteroids, AsteroidSize asteroidSize)
 		{
 			
 			for(int asteroid = 0; asteroid < numAsteroids; asteroid++) 
 			{
-				CreateAsteroid (7, GetSize(asteroidSize), asteroidSize);
+				CreateAsteroid (7, asteroidSize);
 			}
 		}
 
-		private void CreateAsteroid(int asteroidIndex, int drawSize, AsteroidSize asteroidSize)
+		private void CreateAsteroid(int asteroidIndex, AsteroidSize asteroidSize)
 		{
 			float rotateSpeed = RANDOM.Next (1, 11) / 30.0f;
 			int rotateDirection = RANDOM.Next () > 0 ? 1 : -1;
 
-			Vector2 position = new Vector2 (RANDOM.Next () % GameConstants.WINDOW_WIDTH, 
-				RANDOM.Next () % GameConstants.WINDOW_HEIGHT - GameConstants.MAP_SAFEZONE);
-			
+			Vector2 position = new Vector2(RANDOM.Next (GetSize (asteroidSize) / 2, GameConstants.WINDOW_WIDTH - GetSize (asteroidSize) / 2),
+				RANDOM.Next(70, GameConstants.WINDOW_HEIGHT - GameConstants.MAP_SAFEZONE));
+
 			Rectangle textureRectangle = 
 				new Rectangle (x_coords[asteroidIndex], y_coords[asteroidIndex], 
 				widths[asteroidIndex], heights[asteroidIndex]);
 
-			//Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
-			//	AsteroidSize.SMALL, textureRectangle, GetSize (AsteroidSize));
-			//GetSize (asteroidSize);
 			Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
-				asteroidSize, textureRectangle, drawSize);
+				asteroidSize, textureRectangle, GetSize(asteroidSize));
 			
 			asteroids.Add (asteroid);
+		}
+
+		private void CreateAsteroid(int asteroidIndex, AsteroidSize asteroidSize, Vector2 position)
+		{
+			float rotateSpeed = RANDOM.Next (1, 11) / 30.0f;
+			int rotateDirection = RANDOM.Next () > 0 ? 1 : -1;
+
+			position = Utilities.ApplyTorusMovement (position);
+			position = MoveInView (position, GetSize (asteroidSize));
+
+			Rectangle textureRectangle = 
+				new Rectangle (x_coords[asteroidIndex], y_coords[asteroidIndex], 
+					widths[asteroidIndex], heights[asteroidIndex]);
+
+			Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
+				asteroidSize, textureRectangle, GetSize(asteroidSize));
+
+			asteroids.Add (asteroid);
+		}
+
+		private Vector2 MoveInView(Vector2 position, float size)
+		{
+			if (position.X == 0) 
+			{
+				position.X = size / 2.0f;
+			}
+			if (position.X == GameConstants.WINDOW_WIDTH) 
+			{
+				position.X -= size / 2.0f;
+			}
+			if (position.Y == 0) 
+			{
+				position.Y = size / 2.0f;
+			}
+			if (position.Y == GameConstants.WINDOW_HEIGHT) 
+			{
+				position.Y -= size / 2.0f;
+			}
+
+			return position;
 		}
 
 		private int GetSize(AsteroidSize size)

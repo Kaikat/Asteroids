@@ -32,7 +32,7 @@ namespace Asteroids
 
 			return position;
 		}
-
+			
 		public static bool Collided(float radius1, float radius2, Vector2 centerPosition1, Vector2 centerPosition2)
 		{
 			float distance = (float) Math.Sqrt (Math.Pow ((centerPosition2.X - centerPosition1.X), 2.0f) +

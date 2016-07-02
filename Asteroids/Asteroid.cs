@@ -62,6 +62,11 @@ namespace Asteroids
 				new Rectangle((int)transform.position.X, (int)transform.position.Y, 
 				transform.scale, transform.scale), asteroidTextureRectangle, 
 				Color.White, transform.rotation, transform.rotationOrigin, SpriteEffects.None, 0.0f);
+			/*
+			spriteBatch.Draw (TextureManager.asteroidTextures,
+				new Rectangle ((int)transform.position.X - transform.scale / 2, (int)transform.position.Y - transform.scale / 2,
+					transform.scale, transform.scale), asteroidTextureRectangle, Color.White, 
+				transform.rotation, transform.rotationOrigin, SpriteEffects.None, 0.0f); */
 		}
 
 		public void Update(float deltaTime)
@@ -83,10 +88,23 @@ namespace Asteroids
 				alive = false;
 			}
 
-			//returns whether the asteroid was destroid
-			return !alive; 
+			return alive; 
 		}
 
+		public Vector2 GetPositionToRight()
+		{
+			return new Vector2(transform.position.X + transform.scale, transform.position.Y);
+		}
+
+		public Vector2 GetPositionToLeft()
+		{
+			return new Vector2(transform.position.X - transform.scale, transform.position.Y);
+		}
+
+		public Vector2 GetPositionBelow()
+		{
+			return new Vector2 (transform.position.X, transform.position.Y + transform.scale);
+		}
 
 		//For debugging. Remove
 		private void GetSize(AsteroidSize size)

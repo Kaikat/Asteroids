@@ -77,9 +77,10 @@ namespace Asteroids
 			ship.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 			asteroidManager.Update ((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-			foreach (Asteroid asteroid in asteroidManager.asteroids) 
+			//foreach (Asteroid asteroid in asteroidManager.asteroids)
+			for(int i = 0; i < asteroidManager.GetAsteroidCount (); i++)
 			{
-				if (Utilities.Collided (ship.radius, asteroid.radius, ship.origin, asteroid.origin)) 
+				if (Utilities.Collided (ship.radius, asteroidManager.GetAsteroidRadiusAt (i), ship.origin, asteroidManager.GetAsteroidOriginAt (i))) 
 				{
 					Console.WriteLine ("COLLIDED!");
 				} 
@@ -91,20 +92,19 @@ namespace Asteroids
 
 			for(int bulletIndex = ship.weapon.bullets.Count - 1; bulletIndex >= 0; bulletIndex--)
 			{
-				for(int asteroidIndex = asteroidManager.asteroids.Count - 1; asteroidIndex >= 0; asteroidIndex--) 
+				for(int asteroidIndex = asteroidManager.GetAsteroidCount () - 1; asteroidIndex >= 0; asteroidIndex--) 
 				{
-					if (Utilities.Collided (ship.weapon.bullets[bulletIndex].radius, asteroidManager.asteroids[asteroidIndex].radius, 
-						ship.weapon.bullets[bulletIndex].origin, asteroidManager.asteroids[asteroidIndex].origin)) 
+					if (asteroidIndex > asteroidManager.GetAsteroidCount () - 1 || asteroidIndex <= -1 ||
+						bulletIndex > ship.weapon.bullets.Count - 1 || bulletIndex <= -1) 
 					{
-						//asteroidManager.RemoveAsteroidAt (asteroidIndex);
-						ship.weapon.bullets.RemoveAt (bulletIndex);
-						bool asteroidDestroyed = asteroidManager.asteroids[asteroidIndex].DecrementHealth();
+						break;
+					}
 
-						if (asteroidDestroyed || ship.weapon.bullets.Count == 0) 
-						{
-							break;
-						}
-						
+ 					if (Utilities.Collided (ship.weapon.bullets[bulletIndex].radius, asteroidManager.GetAsteroidRadiusAt (asteroidIndex), 
+						ship.weapon.bullets[bulletIndex].origin, asteroidManager.GetAsteroidOriginAt (asteroidIndex))) 
+					{
+						ship.weapon.bullets.RemoveAt (bulletIndex);
+						asteroidManager.DecrementAsteroidHealthAt(asteroidIndex);
 					}
 				}
 			}
