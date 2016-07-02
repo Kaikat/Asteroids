@@ -17,7 +17,7 @@ namespace Asteroids
 
 		private PhysicalData bulletData;
 
-		public Bullet (BulletType bulletType, Vector2 position, Vector2 velocity, Vector2 acceleration, float rotation)
+		public Bullet (BulletType bulletType, Vector2 position, Vector2 velocity, float rotation)
 		{
 			bulletID = (int) bulletType;
 			bulletDrawSize = 20;
@@ -25,8 +25,8 @@ namespace Asteroids
 			bulletTextureRectangle = new Rectangle (x_coords [bulletID], y_coords [bulletID], 
 				widths [bulletID], heights [bulletID]);
 			
-			bulletData = new PhysicalData (position, velocity, acceleration, rotation,
-				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f), GameConstants.BULLET_MAX_SPEED);
+			bulletData = new PhysicalData (position, velocity, rotation,
+				new Vector2 (bulletTextureRectangle.Width / 2.0f, bulletTextureRectangle.Height / 2.0f));
 		}
 
 		public Bullet(BulletType bulletType, PhysicalData data)
@@ -44,12 +44,14 @@ namespace Asteroids
 
 		public void Update (float deltaTime)
 		{
-			bulletData.Update (deltaTime, true);
+			bulletData.acceleration = (bulletData.direction * GameConstants.BULLET_MAX_SPEED);
+			bulletData.Update (deltaTime);
+		}
 
-			//vs
-			//bulletData.acceleration += (bulletData.direction * 7.0f);
-			//bulletData.velocity += bulletData.acceleration * deltaTime;
-			// bulletData.position += bulletData.velocity * deltaTime;
+		public bool IsOffScreen()
+		{
+			return bulletData.position.X > GameConstants.WINDOW_WIDTH  || bulletData.position.X < 0 ||
+				   bulletData.position.Y > GameConstants.WINDOW_HEIGHT || bulletData.position.Y < 0;
 		}
 	}
 }

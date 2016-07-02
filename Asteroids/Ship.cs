@@ -39,8 +39,8 @@ namespace Asteroids
 
 			shipTextureRectangle = new Rectangle (0, 41, 227, 149);
 
-			shipData = new PhysicalData (new Vector2 (x_pos, y_pos), new Vector2 (0.0f, 0.5f), Vector2.Zero, 0.0f,
-				new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f), GameConstants.SHIP_MAX_SPEED);
+			shipData = new PhysicalData (new Vector2 (x_pos, y_pos), new Vector2 (0.0f, 0.5f), 0.0f,
+				new Vector2 (shipTextureRectangle.Width / 2.0f, shipTextureRectangle.Height / 2.0f));
 			
 			weapon = new Weapon (BulletType.MINI);
 		}
@@ -56,7 +56,8 @@ namespace Asteroids
 
 		public void Update(float deltaTime)
 		{			
-			shipData.Update (deltaTime, keyPressed [UP]);
+			shipData.acceleration = keyPressed [UP] ? shipData.direction * GameConstants.SHIP_MAX_SPEED : Vector2.Zero;
+			shipData.Update (deltaTime);
 			shipData.position = Utilities.ApplyTorusMovement(shipData.position);
 
 			if (keyPressed [RIGHT]) 
@@ -118,7 +119,7 @@ namespace Asteroids
 		public void FireKeyPressed(Keys key)
 		{
 			weapon.Fire (shipData.position + (shipData.direction * new Vector2(SHIP_HEIGHT/2.0f, SHIP_HEIGHT/2.0f)), 
-				shipData.velocity, shipData.acceleration, shipData.rotation);
+				shipData.velocity, shipData.rotation);
 		}
 	}
 }

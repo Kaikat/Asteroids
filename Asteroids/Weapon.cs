@@ -26,15 +26,25 @@ namespace Asteroids
 
 		public void Update(float deltaTime)
 		{
+			for (int i = bullets.Count - 1; i >= 0; i--) 
+			{
+				if (bullets [i].IsOffScreen ()) 
+				{
+					bullets.RemoveAt (i);
+				}
+			}
+
 			foreach (Bullet bullet in bullets) 
 			{
 				bullet.Update (deltaTime);
 			}
+
+			Console.WriteLine(bullets.Count);
 		}
 
-		public void Fire (Vector2 position, Vector2 velocity, Vector2 acceleration, float rotation)
+		public void Fire (Vector2 position, Vector2 velocity, float rotation)
 		{
-			Bullet bullet = new Bullet (bulletType, position, velocity, acceleration, rotation);
+			Bullet bullet = new Bullet (bulletType, position, velocity, rotation);
 			bullets.Add (bullet);
 		}
 	}

@@ -23,7 +23,7 @@ namespace Asteroids
 		public const int MAX_ASTEROIDS_IN_LEVEL_3 = 30;
 
 		public const float SHIP_MAX_SPEED = 20.0f;
-		public const float BULLET_MAX_SPEED = 55.0f;
+		public const float BULLET_MAX_SPEED = 250.0f;
 	}
 }
 
