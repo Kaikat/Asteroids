@@ -18,6 +18,15 @@ namespace Asteroids
 			this.rotation = rotation;
 			this.rotationOrigin = rotationOrigin;
 		}
+
+		public PhysicalData (Vector2 position, Vector2 velocity, float rotation, int scale, Vector2 rotationOrigin)
+		{
+			this.position = position;
+			this.velocity = velocity;
+			this.rotation = rotation;
+			this.scale = scale;
+			this.rotationOrigin = rotationOrigin;
+		}
 			
 		public void Update (float deltaTime)
 		{

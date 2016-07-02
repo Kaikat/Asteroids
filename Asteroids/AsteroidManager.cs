@@ -11,6 +11,10 @@ namespace Asteroids
 		private const int MEDIUM_ASTEROID_SIZE = 100;
 		private const int LARGE_ASTEROID_SIZE = 150;
 
+		private const int MAX_SPEED_SMALL = 30;
+		private const int MAX_SPEED_MEDIUM = 20;
+		private const int MAX_SPEED_LARGE = 10;
+
 		private int[] x_coords = { 170, 830, 1530, 2230, 200, 900, 1560, 2310 }; 
 		private int[] widths   = { 360, 420,  420,  420, 300, 300,  370,  280 };
 		private int[] y_coords = { 170, 110,  110,  110, 860, 860,  840,  910 };
@@ -135,8 +139,9 @@ namespace Asteroids
 				new Rectangle (x_coords[asteroidIndex], y_coords[asteroidIndex], 
 				widths[asteroidIndex], heights[asteroidIndex]);
 
-			Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
-				asteroidSize, textureRectangle, GetSize(asteroidSize));
+			Asteroid asteroid = new Asteroid (position, 
+				new Vector2(RANDOM.Next (0, GetMaxSpeed (asteroidSize)), RANDOM.Next (0, GetMaxSpeed (asteroidSize))), 
+				rotateDirection, rotateSpeed, asteroidSize, textureRectangle, GetSize(asteroidSize)); 
 			
 			asteroids.Add (asteroid);
 		}
@@ -153,8 +158,9 @@ namespace Asteroids
 				new Rectangle (x_coords[asteroidIndex], y_coords[asteroidIndex], 
 					widths[asteroidIndex], heights[asteroidIndex]);
 
-			Asteroid asteroid = new Asteroid (position, rotateDirection, rotateSpeed, 
-				asteroidSize, textureRectangle, GetSize(asteroidSize));
+			Asteroid asteroid = new Asteroid (position, 
+				new Vector2(RANDOM.Next (0, GetMaxSpeed (asteroidSize)), RANDOM.Next (0, GetMaxSpeed (asteroidSize))), 
+				rotateDirection, rotateSpeed, asteroidSize, textureRectangle, GetSize(asteroidSize));
 
 			asteroids.Add (asteroid);
 		}
@@ -202,7 +208,25 @@ namespace Asteroids
 					return 0;
 			}
 		}
-		
+
+		private int GetMaxSpeed(AsteroidSize asteroidSize)
+		{
+			switch (asteroidSize) 
+			{
+				case AsteroidSize.SMALL:
+					return MAX_SPEED_SMALL;
+
+				case AsteroidSize.MEDIUM:
+					return MAX_SPEED_MEDIUM;
+
+				case AsteroidSize.LARGE:
+					return MAX_SPEED_LARGE;
+
+				default:
+					return 0;
+			}
+		}
+
 		private int GetMaxAsteroidsInLevel(int level)
 		{
 			switch (level) 

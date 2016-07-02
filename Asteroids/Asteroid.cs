@@ -9,7 +9,9 @@ namespace Asteroids
 	{
 		public AsteroidSize asteroidSize { private set; get; }
 
-		private Transform transform;
+		//private Transform transform;
+		private PhysicalData asteroidData;
+
 		private Rectangle asteroidTextureRectangle;
 		private float rotationSpeed = 0.1f;
 		private int rotationDirection;
@@ -22,15 +24,16 @@ namespace Asteroids
 		public bool alive;
 
 
-		public Asteroid(Vector2 position, int rotateDirection, float rotateSpeed, 
+		public Asteroid(Vector2 position, Vector2 velocity, int rotateDirection, float rotateSpeed, 
 			AsteroidSize size, Rectangle textureRectangle, int drawSize)
 		{
 			asteroidTextureRectangle = textureRectangle;
 			rotationDirection = rotateDirection;
 			rotationSpeed = rotateSpeed;
 			asteroidSize = size;
-			transform = new Transform (position, 0.0f, drawSize, 
+			asteroidData = new PhysicalData (position, velocity, 0.0f, drawSize, 
 				new Vector2 (asteroidTextureRectangle.Width / 2.0f, asteroidTextureRectangle.Height / 2.0f));
+			
 			origin = new Vector2 (position.X + drawSize / 2.0f, 
 								  position.Y + drawSize / 2.0f);
 			radius = drawSize / 2.0f;
@@ -52,16 +55,14 @@ namespace Asteroids
 			{
 				health = 0;
 			}
-			GetSize (asteroidSize);
-			Console.WriteLine ("MY HEALTH: " + health);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(TextureManager.asteroidTextures, 
-				new Rectangle((int)transform.position.X, (int)transform.position.Y, 
-				transform.scale, transform.scale), asteroidTextureRectangle, 
-				Color.White, transform.rotation, transform.rotationOrigin, SpriteEffects.None, 0.0f);
+				new Rectangle((int)asteroidData.position.X, (int)asteroidData.position.Y, 
+					asteroidData.scale, asteroidData.scale), asteroidTextureRectangle, 
+				Color.White, asteroidData.rotation, asteroidData.rotationOrigin, SpriteEffects.None, 0.0f);
 			/*
 			spriteBatch.Draw (TextureManager.asteroidTextures,
 				new Rectangle ((int)transform.position.X - transform.scale / 2, (int)transform.position.Y - transform.scale / 2,
@@ -72,11 +73,13 @@ namespace Asteroids
 		public void Update(float deltaTime)
 		{
 			Rotate (deltaTime);
+			asteroidData.Update (deltaTime);
+			asteroidData.position = Utilities.ApplyTorusMovement (asteroidData.position);
 		}
 
 		public void Rotate(float deltaTime)
 		{
-			transform.rotation += (deltaTime * rotationDirection * rotationSpeed);
+			asteroidData.rotation += (deltaTime * rotationDirection * rotationSpeed);
 		}
 
 		public bool DecrementHealth()
@@ -93,17 +96,17 @@ namespace Asteroids
 
 		public Vector2 GetPositionToRight()
 		{
-			return new Vector2(transform.position.X + transform.scale, transform.position.Y);
+			return new Vector2(asteroidData.position.X + asteroidData.scale, asteroidData.position.Y);
 		}
 
 		public Vector2 GetPositionToLeft()
 		{
-			return new Vector2(transform.position.X - transform.scale, transform.position.Y);
+			return new Vector2(asteroidData.position.X - asteroidData.scale, asteroidData.position.Y);
 		}
 
 		public Vector2 GetPositionBelow()
 		{
-			return new Vector2 (transform.position.X, transform.position.Y + transform.scale);
+			return new Vector2 (asteroidData.position.X, asteroidData.position.Y + asteroidData.scale);
 		}
 
 		//For debugging. Remove

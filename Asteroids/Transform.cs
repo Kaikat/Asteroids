@@ -9,7 +9,7 @@ namespace Asteroids
 		public Vector2 rotationOrigin { get; set; }
 
 		public float rotation { get; set; }
-		public int scale { private set; get; }
+		public int scale { get; set; }
 
 		public Transform()
 		{
